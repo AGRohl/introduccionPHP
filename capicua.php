@@ -14,8 +14,8 @@ $i=0;
 $z=  strlen($frase);
 $condicion = false;
 
-while ($i<= $z/2 && $condicion == TRUE) {
+/*while ($i<= $z/2 && $condicion == TRUE) {
     if ( $frase[$i] == $frase[$z] )
     
-}
+}*/
         

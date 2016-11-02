@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Ficha Cliente (validación)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Incluimos las librerías en la página que contiene el formulario a validar -->  
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>    
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>  
+
+        <!-- Mensajes de validación por defecto que serán mostrados si el programador no especifica uno para -->  
+        <!-- cada regla/campo concreto mediante la propiedad messages que veremos posteriormente. -->  
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/localization/messages_es.js"></script>  
+    </head>
+    <body>
+        <form action="validacionjquery.php" method="POST">
+            <p>Introduce un dni o nie</p>
+            <input type="text" name="dni" minlength="9" required>
+            <input type="submit">
+        </form>
+        <script>
+            function esNIF(value) {
+                var referencia = 'TRWAGMYFPDXBNJZSQVHLCKE';
+                var letra = value.substring(value.length - 1);
+                var numero = parseInt(value.substring(0, value.length - 1));
+                if (referencia.charAt(numero % 23) === letra) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            jQuery.validator.addMethod("esnif", esNIF, "No es un NIF válido");
+            $("#commentForm").validate({
+                submitHandler: function (form) {
+                    var dataString = '&nif=' + $('#cnif').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "validacionjquery.php",
+                        data: dataString,
+                        success: function (data) {
+                            $("#ok").html(data);
+                            $("#ok").show();
+                            //$("#commentForm").hide();
+                        }
+                    });
+                },
+                rules: {
+                    nif: {
+                        esnif: true
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
+</body>
