@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Ficha Cliente (validación)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Incluimos las librerías en la página que contiene el formulario a validar -->  
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>    
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>  
+
+        <!-- Mensajes de validación por defecto que serán mostrados si el programador no especifica uno para -->  
+        <!-- cada regla/campo concreto mediante la propiedad messages que veremos posteriormente. -->  
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/localization/messages_es.js"></script>  
+    </head>
+    <body>
+        <form action="validanie.php" method="POST">
+            <p>Introduce un nie</p>
+            <input type="text" name="nie">
+            <input type="submit">
+        </form>
+        <script>
+            $("#commentForm").validate({
+                submitHandler: function (form) {
+                  form.submit();
+                }
+            });
+        </script>
+    </body>
+</html>
+</body>
