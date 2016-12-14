@@ -14,9 +14,9 @@
 include "conexion.php"; // creamos la conexión con el fichero auxiliar.
 $idCliente = $_GET['idCliente']; // recibimos el parámetro de la anterior página
 $sql = <<< SQL
-    SELECT idPedido, idEmpleado, fechaPedido, cargosE 
-        FROM pedido 
-        WHERE idCliente = ? 
+    SELECT idPedido, e.nombre, e.apellidos, fechaPedido, cargosE 
+        FROM pedido p, empleado e
+        WHERE p.idEmpleado = e.idEmpleado and idCliente = ? 
 SQL;
 // En la sentencia sql la variable que hemos de introducir se indica con "?"
 //echo $sql;
@@ -34,12 +34,12 @@ if ($sentencia->errno){
     die("Error al ejecutar: ".$sentencia->error);
 }
 //ejecutada con éxito
-$sentencia->bind_result($idPedido, $idEmpleado, $fechaPedido, $cargosE);
+$sentencia->bind_result($idPedido, $nomEmpleado, $apEmpleado, $fechaPedido, $cargosE);
 $i=1;
 ?>
             <div class="row bg-info">
                 <div class="col-md-1">idPedido</div>
-                <div class="col-md-1">idEmpleado</div>
+                <div class="col-md-4">Empleado</div>
                 <div class="col-md-2">Fecha Pedido</div>
                 <div class="col-md-2">Cargos en euros</div>
                 <div class="col-md-2">Listado de detalle</div>
@@ -52,8 +52,8 @@ while ($sentencia->fetch()){
              <div class="col-md-1">
                 <?php echo $idPedido;?>
             </div>
-            <div class="col-md-1">
-                    <?php echo $idEmpleado; ?>
+            <div class="col-md-4">
+                    <?php echo $nomEmpleado." ".$apEmpleado; ?>
             </div>
              <div class="col-md-2">
                 <?php echo $fechaPedido;?>
