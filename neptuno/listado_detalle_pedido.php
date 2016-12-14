@@ -17,12 +17,14 @@ consulta, consultamos utilizando el parámetro recibido, y mostramos los datos
 include "conexion.php";
 $idPedido = $_GET['idPedido'];
 $sql = <<< SQL
-    select idProducto, cantidad, precioE
-        from detalle_pedido
-        where idPedido=? 
+    select p.nombreProd as 'Nombre de producto', cantidad as 'Cantidad',
+        d.precioE as 'Precio en Euros'
+        from detalle_pedido d, producto p
+        where p.idProducto = d.idProducto and
+        d.idPedido=?;
 SQL;
 //echo $sql;
-$sentencia = new mysqli_stmt(); //es opcional
+//$sentencia = new mysqli_stmt(); //es opcional
 $sentencia = $conexion->prepare($sql);
 $sentencia->bind_param("i", $idPedido);
 if (!$sentencia){
@@ -34,14 +36,15 @@ if ($sentencia->errno){
     die("Error al ejecutar: ".$sentencia->error);
 }
 //ejecutada con éxito
-$sentencia->bind_result($idProducto, $cantidad, $precioE);
+$sentencia->bind_result($nombreProd, $cantidad, $precioE);
 $i=1;
+$acumula=0;
 ?>
             <div class="row bg-info">
-                <div class="col-md-1">idProducto</div>
-                <div class="col-md-1">Cantidad</div>
-                <div class="col-md-2">Precio en euros</div>
-                <div class="col-md-2">Total</div>
+                <div class="col-md-4 h4">Nombre de Producto</div>
+                <div class="col-md-2 h4">Cantidad</div>
+                <div class="col-md-2 h4">Precio en euros</div>
+                <div class="col-md-2 h4">Total</div>
             </div>            
             
     
@@ -50,10 +53,10 @@ while ($sentencia->fetch()){
     //en $id, $cod, ... estan los valores de los campos
     ?>
         <div class="row <?php echo $i%2==0 ? 'bg-warning':'';?> ">
-             <div class="col-md-1">
-                <?php echo $idProducto;?>
+             <div class="col-md-4">
+                <?php echo $nombreProd;?>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                     <?php echo $cantidad; ?>
             </div>
              <div class="col-md-2">
@@ -64,11 +67,19 @@ while ($sentencia->fetch()){
             </div>
         </div>
     <?php
+    $acumula=$acumula+($precioE*$cantidad);            
     $i++;
 }
+
 $sentencia->close();
 $conexion->close();   
 ?>
+            
+        </div>
+        <div class="container">
+            <div class="row bg-success">
+                <b>Total <?php echo $acumula; ?> euros</b>
+            </div>
         </div>
     </body>
 </html>

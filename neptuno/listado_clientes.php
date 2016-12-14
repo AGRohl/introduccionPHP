@@ -39,10 +39,10 @@ $i=1; // variable para control de líneas pares e impares en el bucle.
 ?>
             
             <div class="row bg-info">
-                <div class="col-md-1">Código</div>
-                <div class="col-md-4">Nombre</div>
-                <div class="col-md-4">Dirección</div>
-                <div class="col-md-1">Pedidos</div>
+                <div class="col-md-1 h4">Código</div>
+                <div class="col-md-4 h4">Nombre</div>
+                <div class="col-md-4 h4">Dirección</div>
+                <div class="col-md-1 h4">Pedidos</div>
             </div>
 <?php
 while ($sentencia->fetch()){ // bucle mientras haya datos.

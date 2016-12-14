@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 /* 
@@ -18,9 +21,9 @@ echo "Conectado a la base de datos...";
 // $pass = $conexion->real_escape_string($_POST['password']);
 // Creamos la sentencia SQL con la que consultar la base de datos.
 $sql= <<< SQL
-        select nombreCli
+        select idCliente,nombreCli
         from cliente
-        where idCliente = 1
+        
 SQL;
 
 // 
