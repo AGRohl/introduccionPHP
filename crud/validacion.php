@@ -18,9 +18,7 @@ $sql = <<< SQL
 SQL;
 echo $sql."<br>";
 $sentencia = new mysqli_stmt(); 
-$sentencia = $conexion->prepare("SELECT idEmpleado, idCargo, usuario, pass
-        FROM empleado
-        WHERE usuario = ?"); // comprueba la sentencia sql
+$sentencia = $conexion->prepare($sql); // comprueba la sentencia sql
 $sentencia->bind_param("s", $login);
 
 if (!$sentencia){
